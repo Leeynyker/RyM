@@ -1,9 +1,34 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <va-affix :offset-top="0">
+    <va-navbar class="navbar" color="dark">
+      <template #left>
+        <va-navbar-item>
+          <router-link to="/"
+            ><img class="logo" src="@/assets/img/logo.png" alt="logo"
+          /></router-link>
+        </va-navbar-item>
+      </template>
+      <template #right>
+        <!-- <va-navbar-item
+          ><router-link class="item" to="/">Home</router-link></va-navbar-item
+        > -->
+        <va-navbar-item
+          ><router-link class="item" to="/characters"
+            >Characters</router-link
+          ></va-navbar-item
+        >
+        <va-navbar-item
+          ><router-link class="item" to="/places"
+            >Places</router-link
+          ></va-navbar-item
+        >
+        <va-navbar-item>
+          <router-link class="item" to="/episodes">Episodes </router-link>
+        </va-navbar-item>
+      </template>
+    </va-navbar>
+  </va-affix>
+  <router-view />
 </template>
 
 <style>
@@ -14,17 +39,25 @@
   text-align: center;
   color: #2c3e50;
 }
-
-nav {
-  padding: 30px;
+.item {
+  color: white;
+  text-decoration: none;
+  font-size: medium;
+  padding: 10px 15px;
 }
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
+.item:focus {
+  color: #00a7bd;
 }
-
-nav a.router-link-exact-active {
-  color: #42b983;
+.item:hover {
+  background-color: #363636;
+  color: #00a7bd;
+  border-radius: 3px;
+}
+.navbar {
+  overflow: hidden;
+}
+.logo {
+  width: 170px;
+  height: auto;
 }
 </style>
