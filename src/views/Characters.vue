@@ -17,14 +17,14 @@
     <!-- <va-pagination v-model="value" :pages="0" /> -->
     <div class="paginator-content">
       <va-pagination
-      class="paginator"
-      color="#227360"
-      v-model="page"
-      boundary-numbers
-      :pages="info.pages"
-      :visible-pages="5"
-      @click="getData()"
-    />
+        class="paginator"
+        color="#227360"
+        v-model="page"
+        boundary-numbers
+        :pages="info.pages"
+        :visible-pages="5"
+        @click="getData()"
+      />
     </div>
 
     <div class="contenedor">
@@ -48,37 +48,54 @@
 
     <div class="paginator-content">
       <va-pagination
-      class="paginator"
-      color="#227360"
-      v-model="page"
-      boundary-numbers
-      :pages="info.pages"
-      :visible-pages="10"
-      @click="getData()"
-    />
+        class="paginator"
+        color="#227360"
+        v-model="page"
+        boundary-numbers
+        :pages="info.pages"
+        :visible-pages="10"
+        @click="getData()"
+      />
     </div>
-    <!-- <modal-personajes
+    <modal-personajes
       @_realizarBusqueda="buscar"
       @_cerrarModal="cerrarModal"
       v-if="verModal"
-    /> -->
+    />
 
-    <va-modal v-model="verModalPersonaje" no-padding>
+    <va-modal v-model="verModalPersonaje" size="small">
       <template #content="{ ok }">
         <va-image :src="dataModalPersonaje.image" />
-        <va-card-title> {{ dataModalPersonaje.nombre }} </va-card-title>
+        <va-card-title class="title-card">{{
+          dataModalPersonaje.name
+        }}</va-card-title>
         <va-card-content>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Id
-          perferendis, illum rem dolorum obcaecati dolorem. Laborum, odio ipsum
-          qui quaerat itaque reiciendis error nemo tenetur beatae. Vel obcaecati
-          magni maxime!
+          <div class="info">
+            <p><b>Status: </b>{{ dataModalPersonaje.status }}</p>
+            <p><b>Specie: </b>{{ dataModalPersonaje.species }}</p>
+            <p><b>Type: </b>{{ dataModalPersonaje.type }}</p>
+            <p><b>Gender: </b>{{ dataModalPersonaje.gender }}</p>
+          </div>
+          <va-accordion class="modal-accordion" v-model="despliegues" inset>
+            <va-collapse
+              :header="`Episodes: ${dataModalPersonaje.episode.length}`"
+            >
+              <div class="lista">
+                <div
+                  class="item-episode"
+                  v-for="(episodio, i) in episidiosPersonajes"
+                  :key="i"
+                >
+                  <p class="item-tetx">
+                    {{ episodio.name }} - {{ episodio.episode }}.
+                  </p>
+                </div>
+              </div>
+            </va-collapse>
+          </va-accordion>
         </va-card-content>
-        <h1>{{ dataModalPersonaje.episode.length }}</h1>
-        <p v-for="(nombre, i) in episidiosPersonajes" :key="i">
-          {{ nombre }}
-        </p>
         <va-card-actions>
-          <va-button @click="ok" color="warning">Ok!</va-button>
+          <va-button @click="ok" color="#227360">Cerrar</va-button>
         </va-card-actions>
       </template>
     </va-modal>
@@ -86,11 +103,15 @@
 </template>
 
 <script>
-// import ModalPersonajes from "@/components/personajes/ModalPersonajes.vue";
+import ModalPersonajes from "@/components/personajes/ModalPersonajes.vue";
 export default {
-  // components: { ModalPersonajes },
+  components: { ModalPersonajes },
   data() {
     return {
+      encabezados: {
+        title1: "Info",
+        title2: "Episodes",
+      },
       verModal: false,
       verModalPersonaje: false,
       personajes: [],
@@ -117,7 +138,7 @@ export default {
           url: `${episodio}`,
         }).then((response) => {
           console.log(response);
-          this.episidiosPersonajes.push(response.data.name);
+          this.episidiosPersonajes.push(response.data);
         });
       }
     },
@@ -180,6 +201,7 @@ export default {
   overflow: hidden;
   margin: 20px;
   width: 20%;
+  min-width: 250px;
 }
 .tarjeta:hover {
   box-shadow: 3px 3px 18px 4px rgba(0, 0, 0, 0.329);
@@ -193,7 +215,7 @@ export default {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 .titulo {
   color: rgb(60, 60, 60);
@@ -218,5 +240,17 @@ export default {
   justify-content: center;
   margin: 10px 0px 25px 0px;
   /* background-color: #227360; */
+}
+.info {
+  margin: 0 0 20px 0;
+}
+.lista {
+  padding: 15px;
+}
+ul {
+  display: block;
+}
+.item-tetx {
+  margin: 15px 0;
 }
 </style>
