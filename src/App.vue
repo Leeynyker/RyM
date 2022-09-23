@@ -45,12 +45,13 @@
   font-size: medium;
   padding: 10px 15px;
 }
+
 .item:focus {
-  color: #00a7bd;
+  color: #009c77;
 }
 .item:hover {
   background-color: #363636;
-  color: #00a7bd;
+  color: #009c77;
   border-radius: 3px;
 }
 .navbar {
@@ -59,5 +60,8 @@
 .logo {
   width: 170px;
   height: auto;
+}
+html{
+  background: rgba(42, 42, 42, 0.123);
 }
 </style>
